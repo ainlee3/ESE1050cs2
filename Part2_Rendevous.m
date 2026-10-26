@@ -1,6 +1,11 @@
+%%Part 2
+
+run('part1.m');
+G = G4;
 
 n = size(G,1);
 I = eye(n);
+
 d = G*ones(n,1);
 D = diag(d);
 L = D - G;
