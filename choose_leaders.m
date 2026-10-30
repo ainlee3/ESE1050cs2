@@ -23,17 +23,58 @@ function S = choose_leaders(G, P0, faulty, g, m)
 %       Helper functions are allowed, but put them in this file, below
 %       this function, so that this single file is all we need to run it.
 %
-%   Team: <team name>
-%   Members: <names>
+%   Team: Case study Group 5
+%   Members: Alex Chen, Evelyn Lee, Caleb Collins
 %
-%   Strategy (2-3 sentences describing your rule, in words):
-%   <describe it here>
+%   Strategy (2-3 sentences describing your rule, in words): We are going
+%   to implement a strategy that is going to spread out the leaders more so
+%   that we do not have leaders that are all in one cluster. We would do
+%   this by picking out the highest degree robot that is more than a hop
+%   away from the previous leader.
+%   
+%   
+
 
 n = size(G, 1);
 working = true(n, 1);
 working(faulty) = false;
+one = ones(n, 1);
+d = G*one;
+S = zeros(0, 1);
 
-% ---- replace this placeholder with your strategy ----
-S = [];   % no leaders: valid, but scores 0
+
+M = eye(n) + G;
+k = 1;
+
+diameter = (M)^k > 0;
+
+
+for pick = 1:m
+    if ~any(working)
+        break                           
+    end
+    workingRobots = find(working); 
+    workingDegrees = d(workingRobots);
+    [~, idx] = max(workingDegrees);         
+    leader = workingRobots(idx);              
+    S(end + 1, 1) = leader;                  
+    working(diameter(:, leader)) = 0;  
+end
+
+
+
+  
+
 
 end
+
+
+
+
+
+
+
+
+
+
+
