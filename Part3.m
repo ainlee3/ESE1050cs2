@@ -58,3 +58,24 @@ disp(avg);
 % Our Strategy: Average J score with 20 seeds = 62.3505
 % Our Strategy: Average J score with 100 seeds = 60.5653
 % Our Strategy: Average J score with 1000 seeds = 58.1750      
+
+
+%%Find Worst Case Scores from Seeds 1 - 20
+%Worst Case Scores for our Strategy: Seed 5 - J Score 36.1305
+%Worst Case Scores for Highest Degree: Seed 12 - J Score 0.9188
+%Worst Case Scores for Closest to Rally Point: Seed 4 - J Score 0.3416
+%Worst Case Score for Random Leaders: Seed 4 - J Score 0.45
+
+
+seeds = 1:20;                         
+Js = zeros(numel(seeds), 1);
+for k = 1:numel(seeds)
+    D = make_deployment(seeds(k));
+    S = choose_leaders(D.G, D.P0, D.faulty, D.g, 4);
+    Js(k) = score_mission(D, S);
+end
+
+
+[sortedJ, order] = sort(Js);
+bottom5 = [seeds(order(1:5))' sortedJ(1:5)];
+disp(bottom5);
