@@ -1,4 +1,4 @@
-function G = makestar(n)
+function G = make_star(n)
 e1 = zeros(n,1);
 e1(1) = 1;
 one = ones(n,1);
