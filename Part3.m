@@ -14,6 +14,9 @@ xPos(S) = D.g(1);
 yPos = D.P0(:,2);   
 yPos(S) = D.g(2); 
 
+x0 = D.P0(:,1);
+y0 = D.P0(:,2);
+
 K = 20000;
 
 Lambda = diag(lambda);
