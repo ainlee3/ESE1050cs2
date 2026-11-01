@@ -31,11 +31,16 @@ A_y = simulate_linear(W_A,y0,K);
 B_y = simulate_linear(W_B,y0,K);
 
 
-error_A = norm(A_x(:,end) - W_A^K*x0);
-error_B = norm(B_x(:,end) - W_B^K*x0);
 
-fprintf('Protocol A error: %.2e\n', error_A);
-fprintf('Protocol B error: %.2e\n', error_B);
+error_Ax = norm(A_x(:,end) - W_A^K*x0);
+error_Ay = norm(A_y(:,end) - W_A^K*y0);
+error_Bx = norm(B_x(:,end) - W_B^K*x0);
+error_By = norm(B_y(:,end) - W_B^K*y0);
+
+fprintf('Protocol A x error: %.2e\n', error_Ax);
+fprintf('Protocol A y error: %.2e\n', error_Ay);
+fprintf('Protocol B x error: %.2e\n', error_Bx);
+fprintf('Protocol B y error: %.2e\n', error_By);
 
 %Experiments Section C2:
 %Important to Note that the Prediction Log is attached as a separate word
@@ -67,14 +72,15 @@ for t =1:5
     
     delta_A = calc_delta_func(A_x, A_y, C);
 
-    k_epsilon(t) = K_max;
+     k_epsilon(t) = Inf;
     threshold = 0.01 * delta_A(1);
-    for step = 1:(K_max +1)
-        if delta_A(step) <= threshold
-            k_epsilon(t) = step - 1;
-            break;
-        end
+
+    idx = find(delta_A <= threshold, 1, 'first');
+
+    if ~isempty(idx)
+        k_epsilon(t) = idx - 1;
     end
+
     plot(0:K_max, delta_A, 'DisplayName', names_E1{t});
 end
 set(gca, 'YScale', 'log');
@@ -89,7 +95,7 @@ hold off;
 %values of k_epsilon
 disp(' E1 Rendezvous Times');
 for t = 1:5
-    fprintf('%s: %d steps\n', names_E1{t}, k_epsilon(t));
+     fprintf('%s: %g steps\n', names_E1{t}, k_epsilon(t));
 end
 
 %E2 Code
