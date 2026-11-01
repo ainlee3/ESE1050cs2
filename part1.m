@@ -15,10 +15,10 @@ k = ks(idx);
 
 fprintf('r_min = %.1f, T4 edges = %d, ring k = %d, T3 edges = %d\n', rmin, edges4, k, n*k);
 
-G1 = makecomplete(n);
+G1 = make_complete(n);
 G2 = make_star(n);
-G3 = makering(n, k);
-G4 = makedisk(P0, rmin);
+G3 = make_ring(n, k);
+G4 = make_disk(P0, rmin);
 
 
 names = {'T1 Broadcast'; 'T2 Star'; 'T3 Ring'; 'T4 Disk'};
